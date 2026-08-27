@@ -1,0 +1,56 @@
+/* TRINITY CAR — shared styles on top of Tailwind CDN */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800&display=swap');
+
+:root { --tc-blue: #1E5FBF; }
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Poppins', sans-serif; background: #F3F1EC; }
+body.font-arabic { font-family: 'Cairo', sans-serif; }
+
+/* Visible keyboard focus everywhere */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--tc-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Animated gradient backdrop for hero */
+.animated-gradient {
+  background: linear-gradient(120deg, #eef2ff, #f3f1ec, #dbeafe, #f3f1ec);
+  background-size: 300% 300%;
+  animation: gradientMove 14s ease infinite;
+}
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Cursor blob */
+[data-cursor-blob] {
+  position: absolute;
+  width: 420px; height: 420px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(30,95,191,0.14), transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  z-index: 0;
+}
+
+/* Reduced motion: disable custom animation & tilt */
+@media (prefers-reduced-motion: reduce) {
+  .animated-gradient { animation: none; }
+  * { scroll-behavior: auto !important; }
+}
+
+/* Step progress (reservation page) */
+.step-dot { transition: background-color .3s, color .3s; }
+.step-line { transition: background-color .3s; }
+
+/* Simple fade utility fallback (if GSAP fails to load) */
+[data-fade-up], [data-reveal-text] { opacity: 1; }
+
+/* RTL flip helpers */
+[dir="rtl"] .rtl-flip { transform: scaleX(-1); }

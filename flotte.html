@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notre flotte — Trinity Car Oujda | Hyundai, Opel, Peugeot</title>
+<meta name="description" content="Découvrez toute la flotte Trinity Car à Oujda : Hyundai i20, Opel Corsa, Hyundai Elantra, Peugeot 208. Tarifs dès 110 DH/jour, assurance incluse.">
+<link rel="canonical" href="https://trinitycar.ma/flotte.html">
+<link rel="alternate" hreflang="fr" href="https://trinitycar.ma/flotte.html">
+<link rel="alternate" hreflang="ar" href="https://trinitycar.ma/flotte.html">
+<link rel="alternate" hreflang="en" href="https://trinitycar.ma/flotte.html">
+<link rel="alternate" hreflang="x-default" href="https://trinitycar.ma/flotte.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Notre flotte — Trinity Car Oujda">
+<meta property="og:description" content="Hyundai i20, Opel Corsa, Hyundai Elantra, Peugeot 208 — tarifs dès 110 DH/jour.">
+<meta property="og:url" content="https://trinitycar.ma/flotte.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.json">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json" id="fleetSchema">{"@context":"https://schema.org","@graph":[]}</script>
+</head>
+<body class="text-slate-800 antialiased">
+
+<div id="navbar"></div>
+
+<section class="max-w-7xl mx-auto px-5 md:px-8 pt-16 pb-8 text-center">
+  <h1 data-reveal-text class="text-4xl md:text-5xl font-black text-slate-900 mb-4" data-i18n="fleetPage.title">Notre flotte</h1>
+  <p data-fade-up class="text-slate-500 max-w-xl mx-auto" data-i18n="fleetPage.sub">Découvrez tous nos véhicules disponibles à la location.</p>
+</section>
+
+<section class="max-w-7xl mx-auto px-5 md:px-8 pb-8">
+  <div class="flex justify-center gap-2 flex-wrap mb-3" id="filterBar"></div>
+  <div class="flex justify-center gap-2 flex-wrap" id="filterBarFuel"></div>
+</section>
+
+
+<section class="max-w-7xl mx-auto px-5 md:px-8 pb-10">
+  <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 grid sm:grid-cols-3 gap-4 text-sm text-blue-800">
+    <p>🎁 <span data-i18n="infoStrip.promo1">Remise à partir de 5 jours de location</span></p>
+    <p>🎉 <span data-i18n="infoStrip.promo2">7 jours de location = 1 jour offert</span></p>
+    <p>☀️ <span data-i18n="infoStrip.seasonal">Tarifs plus élevés en haute saison (été)</span></p>
+  </div>
+</section>
+
+<section class="max-w-7xl mx-auto px-5 md:px-8 pb-24">
+  <div id="fleetGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+</section>
+
+<div id="footer"></div>
+
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="/assets/app.js"></script>
+<script src="/assets/animations.js"></script>
+<script>
+  let activeFilter = "all";
+  let activeFuelFilter = "all";
+
+  function applyStaticI18n() {
+    const T = t();
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const path = el.dataset.i18n.split(".");
+      let val = T; path.forEach(p => val = val ? val[p] : "");
+      if (typeof val === "string") el.textContent = val;
+    });
+    document.title = currentLang === "ar" ? "أسطولنا — Trinity Car وجدة" : currentLang === "en" ? "Our Fleet — Trinity Car Oujda" : "Notre flotte — Trinity Car Oujda | Hyundai, Opel, Peugeot";
+  }
+
+  function renderFilterBar() {
+    const T = t();
+    const filters = [
+      { id: "all", label: T.fleetPage.filterAll },
+      { id: "Automatique", label: T.fleetPage.filterAuto },
+      { id: "Manuelle", label: T.fleetPage.filterManual }
+    ];
+    document.getElementById("filterBar").innerHTML = filters.map(f => `
+      <button data-filter="${f.id}" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold border transition-colors ${activeFilter===f.id ? 'bg-blue-600 text-white border-blue-600' : 'border-slate-300 text-slate-600 hover:border-blue-400'}">${f.label}</button>
+    `).join("");
+    document.querySelectorAll(".filter-btn").forEach(btn => btn.addEventListener("click", () => { activeFilter = btn.dataset.filter; renderFilterBar(); renderFleetGrid(); }));
+
+    const fuelLabel = { fr: { all: "Tous carburants", Essence: "Essence", Diesel: "Diesel" }, ar: { all: "كل أنواع الوقود", Essence: "بنزين", Diesel: "ديزل" }, en: { all: "All fuel types", Essence: "Petrol", Diesel: "Diesel" } }[currentLang];
+    const fuelFilters = ["all", "Essence", "Diesel"];
+    document.getElementById("filterBarFuel").innerHTML = fuelFilters.map(f => `
+      <button data-fuel-filter="${f}" class="fuel-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold border transition-colors ${activeFuelFilter===f ? 'bg-slate-800 text-white border-slate-800' : 'border-slate-200 text-slate-500 hover:border-slate-400'}">${fuelLabel[f]}</button>
+    `).join("");
+    document.querySelectorAll(".fuel-filter-btn").forEach(btn => btn.addEventListener("click", () => { activeFuelFilter = btn.dataset.fuelFilter; renderFilterBar(); renderFleetGrid(); }));
+  }
+
+  function renderFleetGrid() {
+    let filtered = activeFilter === "all" ? CARS : CARS.filter(c => c.gearbox.fr === activeFilter);
+    if (activeFuelFilter !== "all") filtered = filtered.filter(c => c.fuel.fr === activeFuelFilter);
+    document.getElementById("fleetGrid").innerHTML = filtered.map((c, i) => carCardHTML(c, i)).join("");
+    if (window.gsap) { initCardReveals(); init3DTilt(); }
+
+    // Product/Offer schema per car
+    const schema = {
+      "@context": "https://schema.org",
+      "@graph": CARS.map(c => ({
+        "@type": "Product",
+        "name": `${c.name} ${c.year}`,
+        "brand": c.name.split(" ")[0],
+        "offers": { "@type": "Offer", "price": c.pricePerDay, "priceCurrency": "MAD", "availability": "https://schema.org/InStock", "url": "https://trinitycar.ma/reservation.html?car=" + c.id }
+      }))
+    };
+    document.getElementById("fleetSchema").textContent = JSON.stringify(schema);
+  }
+
+  function onLangChange() { applyStaticI18n(); renderFilterBar(); renderFleetGrid(); }
+  applyStaticI18n();
+  renderFilterBar();
+  renderFleetGrid();
+</script>
+</body>
+</html>

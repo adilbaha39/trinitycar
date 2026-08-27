@@ -1,0 +1,12 @@
+{
+  "name": "Trinity Car - Location voiture Oujda",
+  "short_name": "Trinity Car",
+  "description": "Location de voitures à Oujda. Réservation rapide sur WhatsApp.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#F3F1EC",
+  "theme_color": "#1E5FBF",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
