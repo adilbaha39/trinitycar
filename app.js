@@ -304,28 +304,29 @@ function renderNavbar() {
   if (!el) return;
   const T = t();
   const path = window.location.pathname;
-  const isActive = (p) => (path === p || (p === "/index.html" && path === "/")) ? "text-blue-600" : "text-slate-700 hover:text-blue-600";
-  const underline = (p) => (path === p || (p === "/index.html" && path === "/")) ? '<span class="block h-0.5 bg-blue-600 mt-1 rounded-full"></span>' : "";
+  const page = path.substring(path.lastIndexOf("/") + 1) || "index.html";
+  const isActive = (p) => (page === p || (p === "index.html" && page === "")) ? "text-blue-600" : "text-slate-700 hover:text-blue-600";
+  const underline = (p) => (page === p || (p === "index.html" && page === "")) ? '<span class="block h-0.5 bg-blue-600 mt-1 rounded-full"></span>' : "";
 
   el.innerHTML = `
   <header class="sticky top-0 z-50 bg-[#F3F1EC]/90 backdrop-blur border-b border-black/5">
     <div class="max-w-7xl mx-auto px-5 md:px-8 h-20 flex items-center justify-between">
-      <a href="/index.html" class="flex flex-col leading-none group" aria-label="Trinity Car - ${T.nav.home}">
+      <a href="index.html" class="flex flex-col leading-none group" aria-label="Trinity Car - ${T.nav.home}">
         <svg width="150" height="18" viewBox="0 0 150 18" fill="none" class="mb-1 opacity-70"><path d="M2 15c8-10 20-13 35-10s25 8 40 3 35-6 45 2" stroke="#1E5FBF" stroke-width="1.2" fill="none"/></svg>
         <span class="text-2xl font-black tracking-tight text-slate-900">TRINITY<span class="text-blue-600">CAR</span></span>
         <span class="text-[9px] tracking-[0.25em] text-slate-400 font-medium">LOCATION VOITURE OUJDA</span>
       </a>
       <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium">
-        <a href="/index.html" class="${isActive('/index.html')} transition-colors">${T.nav.home}${underline('/index.html')}</a>
-        <a href="/flotte.html" class="${isActive('/flotte.html')} transition-colors">${T.nav.fleet}${underline('/flotte.html')}</a>
-        <a href="/agence.html" class="${isActive('/agence.html')} transition-colors">${T.nav.agency}${underline('/agence.html')}</a>
-        <a href="/reservation.html" class="${isActive('/reservation.html')} transition-colors">${T.nav.contact}${underline('/reservation.html')}</a>
+        <a href="index.html" class="${isActive('index.html')} transition-colors">${T.nav.home}${underline('index.html')}</a>
+        <a href="flotte.html" class="${isActive('flotte.html')} transition-colors">${T.nav.fleet}${underline('flotte.html')}</a>
+        <a href="agence.html" class="${isActive('agence.html')} transition-colors">${T.nav.agency}${underline('agence.html')}</a>
+        <a href="reservation.html" class="${isActive('reservation.html')} transition-colors">${T.nav.contact}${underline('reservation.html')}</a>
       </nav>
       <div class="flex items-center gap-3">
         <div class="hidden sm:flex items-center gap-1 text-xs font-semibold text-slate-500 border border-slate-300 rounded-full p-1">
           ${["fr","ar","en"].map(l => `<button data-lang="${l}" class="lang-btn px-2.5 py-1 rounded-full transition-colors ${currentLang===l ? 'bg-blue-600 text-white' : 'hover:bg-slate-200'}">${l.toUpperCase()}</button>`).join("")}
         </div>
-        <a href="/reservation.html" class="hidden md:inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-3 rounded-xl transition-colors magnetic-btn">
+        <a href="reservation.html" class="hidden md:inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-3 rounded-xl transition-colors magnetic-btn">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.18-1.77 1.25-.45.07-1.02.1-1.65-.1-.38-.12-.87-.28-1.5-.55-2.63-1.14-4.35-3.8-4.48-3.98-.13-.17-1.07-1.42-1.07-2.71 0-1.29.68-1.92.92-2.18.24-.26.53-.32.7-.32.18 0 .35 0 .5.01.16.01.38-.06.6.46.22.53.75 1.83.82 1.96.07.14.11.3.02.48-.09.18-.14.29-.27.44-.14.16-.29.35-.41.47-.14.14-.28.29-.12.57.16.27.71 1.18 1.53 1.91 1.05.94 1.94 1.23 2.21 1.37.27.14.43.12.59-.07.16-.2.68-.79.86-1.06.18-.27.36-.22.6-.13.25.09 1.57.74 1.84.88.27.14.45.2.51.32.07.12.07.68-.15 1.3z"/></svg>
           ${T.nav.reserve}
         </a>
@@ -335,14 +336,14 @@ function renderNavbar() {
       </div>
     </div>
     <div id="mobileMenu" class="md:hidden hidden bg-[#F3F1EC] border-t border-black/5 px-5 py-4 space-y-3">
-      <a href="/index.html" class="block font-medium ${isActive('/index.html')}">${T.nav.home}</a>
-      <a href="/flotte.html" class="block font-medium ${isActive('/flotte.html')}">${T.nav.fleet}</a>
-      <a href="/agence.html" class="block font-medium ${isActive('/agence.html')}">${T.nav.agency}</a>
-      <a href="/reservation.html" class="block font-medium ${isActive('/reservation.html')}">${T.nav.contact}</a>
+      <a href="index.html" class="block font-medium ${isActive('index.html')}">${T.nav.home}</a>
+      <a href="flotte.html" class="block font-medium ${isActive('flotte.html')}">${T.nav.fleet}</a>
+      <a href="agence.html" class="block font-medium ${isActive('agence.html')}">${T.nav.agency}</a>
+      <a href="reservation.html" class="block font-medium ${isActive('reservation.html')}">${T.nav.contact}</a>
       <div class="flex gap-2 pt-2">
         ${["fr","ar","en"].map(l => `<button data-lang="${l}" class="lang-btn px-3 py-1.5 rounded-full text-xs font-semibold border ${currentLang===l ? 'bg-blue-600 text-white border-blue-600' : 'border-slate-300'}">${l.toUpperCase()}</button>`).join("")}
       </div>
-      <a href="/reservation.html" class="block text-center bg-blue-600 text-white font-semibold py-3 rounded-xl">${T.nav.reserve}</a>
+      <a href="reservation.html" class="block text-center bg-blue-600 text-white font-semibold py-3 rounded-xl">${T.nav.reserve}</a>
     </div>
   </header>`;
 
@@ -373,10 +374,10 @@ function renderFooter() {
       <div>
         <h4 class="text-white font-semibold mb-4 text-sm tracking-wide">${T.footer.links}</h4>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="/index.html" class="hover:text-white transition-colors">${T.nav.home}</a></li>
-          <li><a href="/flotte.html" class="hover:text-white transition-colors">${T.nav.fleet}</a></li>
-          <li><a href="/agence.html" class="hover:text-white transition-colors">${T.nav.agency}</a></li>
-          <li><a href="/reservation.html" class="hover:text-white transition-colors">${T.nav.contact}</a></li>
+          <li><a href="index.html" class="hover:text-white transition-colors">${T.nav.home}</a></li>
+          <li><a href="flotte.html" class="hover:text-white transition-colors">${T.nav.fleet}</a></li>
+          <li><a href="agence.html" class="hover:text-white transition-colors">${T.nav.agency}</a></li>
+          <li><a href="reservation.html" class="hover:text-white transition-colors">${T.nav.contact}</a></li>
         </ul>
       </div>
       <div>
@@ -433,7 +434,7 @@ function carCardHTML(car, index, options = {}) {
       </div>
       <div class="flex items-center justify-between">
         <div><span class="text-2xl font-black text-blue-600">${car.pricePerDay}</span> <span class="text-xs text-slate-500">${T.fleetSection.perDay}</span></div>
-        <a href="/reservation.html?car=${car.id}" class="choose-btn bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">${T.fleetSection.choose}</a>
+        <a href="reservation.html?car=${car.id}" class="choose-btn bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">${T.fleetSection.choose}</a>
       </div>
     </div>
   </div>`;
