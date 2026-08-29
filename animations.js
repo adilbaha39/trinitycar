@@ -120,6 +120,57 @@ function initGradientBackground(selector = "[data-animated-gradient]") {
   document.querySelectorAll(selector).forEach(el => el.classList.add("animated-gradient"));
 }
 
+/* Navbar shrink-on-scroll (re-queries DOM each tick so it survives
+   navbar re-renders on language switch — no stale element references) */
+function initNavbarShrink() {
+  let ticking = false;
+  window.addEventListener("scroll", () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const inner = document.getElementById("navInner");
+      if (inner) inner.classList.toggle("navbar-shrink", window.scrollY > 40);
+      ticking = false;
+    });
+  }, { passive: true });
+}
+
+/* Scroll-triggered SVG line drawing (logo squiggle + any .svg-draw path) */
+function initSvgDraw() {
+  document.querySelectorAll("path.svg-draw").forEach(path => {
+    if (path.dataset.drawn) return;
+    try {
+      const length = path.getTotalLength();
+      path.style.strokeDasharray = length;
+      path.style.strokeDashoffset = length;
+      path.dataset.drawn = "1";
+      if (prefersReducedMotion()) { path.style.strokeDashoffset = 0; return; }
+      if (typeof gsap !== "undefined") {
+        gsap.to(path, { strokeDashoffset: 0, duration: 1.4, ease: "power2.out", delay: 0.2 });
+      } else {
+        path.style.transition = "stroke-dashoffset 1.4s ease-out .2s";
+        requestAnimationFrame(() => requestAnimationFrame(() => path.style.strokeDashoffset = 0));
+      }
+    } catch (e) { /* getTotalLength can fail on hidden/zero-size paths — ignore */ }
+  });
+}
+
+/* Ken Burns: pure-CSS effect (class applied directly in HTML); the
+   prefers-reduced-motion guard already lives in style.css, so no
+   JS toggle is needed here — kept as a no-op hook for future use. */
+
+/* Animated underline that grows under a heading once scrolled into view */
+function initTimelineLine(selector = "[data-timeline-line]") {
+  if (typeof gsap === "undefined") return;
+  document.querySelectorAll(selector).forEach(el => {
+    gsap.set(el, { scaleX: 0, transformOrigin: "left center" });
+    ScrollTrigger.create({
+      trigger: el, start: "top 90%", once: true,
+      onEnter: () => gsap.to(el, { scaleX: 1, duration: 1, ease: "power3.out" })
+    });
+  });
+}
+
 /* Master init — call on every page after navbar/footer render + car cards render */
 function initAllAnimations() {
   initLenis();
@@ -129,6 +180,9 @@ function initAllAnimations() {
   init3DTilt();
   initMagneticButtons();
   initGradientBackground();
+  initNavbarShrink();
+  initSvgDraw();
+  initTimelineLine();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

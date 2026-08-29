@@ -16,13 +16,40 @@
 <meta property="og:url" content="https://trinitycar.ma/flotte.html">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="tailwind.css">
-<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://commons.wikimedia.org">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="tailwind.css?v=3">
+<link rel="stylesheet" href="style.css?v=3">
 <script type="application/ld+json" id="fleetSchema">{"@context":"https://schema.org","@graph":[]}</script>
 </head>
 <body class="text-slate-800 antialiased">
+<a href="#main" class="skip-link">Skip to content</a>
 
 <div id="navbar"></div>
+
+<main id="main">
+
+<nav aria-label="Breadcrumb" class="max-w-7xl mx-auto px-5 md:px-8 pt-6 text-sm text-slate-500">
+  <ol class="flex items-center gap-2">
+    <li><a href="index.html" class="hover:text-blue-600" data-i18n="nav.home">Accueil</a></li>
+    <li aria-hidden="true">/</li>
+    <li aria-current="page" class="text-slate-700 font-medium" data-i18n="fleetPage.title">Notre flotte</li>
+  </ol>
+</nav>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://trinitycar.ma/index.html"},
+    {"@type": "ListItem", "position": 2, "name": "Notre flotte", "item": "https://trinitycar.ma/flotte.html"}
+  ]
+}
+</script>
 
 <section class="max-w-7xl mx-auto px-5 md:px-8 pt-16 pb-8 text-center">
   <h1 data-reveal-text class="text-4xl md:text-5xl font-black text-slate-900 mb-4" data-i18n="fleetPage.title">Notre flotte</h1>
@@ -37,9 +64,9 @@
 
 <section class="max-w-7xl mx-auto px-5 md:px-8 pb-10">
   <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 grid sm:grid-cols-3 gap-4 text-sm text-blue-800">
-    <p>🎁 <span data-i18n="infoStrip.promo1">Remise à partir de 5 jours de location</span></p>
-    <p>🎉 <span data-i18n="infoStrip.promo2">7 jours de location = 1 jour offert</span></p>
-    <p>☀️ <span data-i18n="infoStrip.seasonal">Tarifs plus élevés en haute saison (été)</span></p>
+    <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icon w-4 h-4 align-[-2px]"><rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M3.5 13h17M12 9v11"/><path d="M12 9C9 9 8 7.5 8 6.3A2.3 2.3 0 0110.3 4c1.7 0 1.7 2.5 1.7 5zM12 9c3 0 4-1.5 4-2.7A2.3 2.3 0 0013.7 4C12 4 12 6.5 12 9z"/></svg> <span data-i18n="infoStrip.promo1">Remise à partir de 5 jours de location</span></p>
+    <p><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" class="icon w-4 h-4 align-[-2px]"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.1 6.6L12 17.5l-5.8 3.1 1.1-6.6-4.8-4.6 6.6-.9z"/></svg> <span data-i18n="infoStrip.promo2">7 jours de location = 1 jour offert</span></p>
+    <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icon w-4 h-4 align-[-2px]"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.2M12 19.8V22M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2 12h2.2M19.8 12H22M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg> <span data-i18n="infoStrip.seasonal">Tarifs plus élevés en haute saison (été)</span></p>
   </div>
 </section>
 
@@ -47,13 +74,18 @@
   <div id="fleetGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 </section>
 
+</main>
+
 <div id="footer"></div>
 
 <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="app.js"></script>
-<script src="animations.js"></script>
+<script src="icons.js?v=3"></script>
+<script src="data.js?v=3"></script>
+<script src="i18n.js?v=3"></script>
+<script src="ui.js?v=3"></script>
+<script src="animations.js?v=3"></script>
 <script>
   let activeFilter = "all";
   let activeFuelFilter = "all";
@@ -91,8 +123,8 @@
   function renderFleetGrid() {
     let filtered = activeFilter === "all" ? CARS : CARS.filter(c => c.gearbox.fr === activeFilter);
     if (activeFuelFilter !== "all") filtered = filtered.filter(c => c.fuel.fr === activeFuelFilter);
-    document.getElementById("fleetGrid").innerHTML = filtered.map((c, i) => carCardHTML(c, i)).join("");
-    if (window.gsap) { initCardReveals(); init3DTilt(); }
+    document.getElementById("fleetGrid").innerHTML = filtered.map((c, i) => carCardHTML(c, i, { flip: true })).join("");
+    if (window.gsap) { initCardReveals(".flip-wrap"); }
 
     // Product/Offer schema per car
     const schema = {
@@ -111,6 +143,11 @@
   applyStaticI18n();
   renderFilterBar();
   renderFleetGrid();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
 </script>
 </body>
 </html>
